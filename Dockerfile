@@ -1,28 +1,17 @@
-FROM php:7-apache
+FROM ubuntu:12.04
 
 MAINTAINER "Lukas Brzobohaty" <brzda.l@gmail.com>
 
-RUN a2enmod rewrite
-
 ENV TZ Europe/Prague
 
-ENV DEPENDENCY_PACKAGES="libpq-dev libcurl4-openssl-dev libpng12-dev libjpeg-dev libfreetype6-dev libpng-dev libmcrypt-dev libxml2-dev"
-ENV BUILD_PACKAGES="php5-curl"
+ENV DEPENDENCY_PACKAGES="libapache2-mod-php5"
+ENV BUILD_PACKAGES="apache2 php5 php5-gd php5-mysql php5-curl php5-memcached php5-mcrypt"
 
-RUN sed -i  "s/http:\/\/httpredir\.debian\.org\/debian/ftp:\/\/ftp\.debian\.org\/debian/g" /etc/apt/sources.list
+RUN a2enmod rewrite
 
-RUN apt-get clean \
-    && apt-get update \
-    && apt-get install -f -y $DEPENDENCY_PACKAGES $BUILD_PACKAGES \
-    && apt-get autoremove -y \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
-	
-	
-RUN docker-php-ext-configure pgsql -with-pgsql=/usr/include/postgresql \
-    && docker-php-ext-configure gd --enable-gd-native-ttf --with-png-dir=/usr/include --with-jpeg-dir=/usr/include --with-freetype-dir=/usr/include/freetype2 \
-    && docker-php-ext-configure bcmath \
-    && docker-php-ext-install -j$(nproc) pdo pdo_pgsql pgsql pdo_mysql mysqli curl gd mbstring json bcmath mcrypt zip fileinfo soap calendar
-	
-# php.ini
-COPY conf/php.ini /usr/local/etc/php/
+COPY 5.3/site-default /etc/apache2/sites-enabled/000-default
+COPY 5.3/php.ini /etc/php5/apache2/php.ini
+
+EXPOSE 80
+
+CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
