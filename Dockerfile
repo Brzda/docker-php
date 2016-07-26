@@ -15,8 +15,8 @@ RUN apt-get update \
 
 RUN a2enmod rewrite
 
-COPY 5.3/site-default /etc/apache2/sites-enabled/000-default
-COPY 5.3/php.ini /etc/php5/apache2/php.ini
+COPY conf/site-default /etc/apache2/sites-enabled/000-default
+COPY conf/php.ini /etc/php5/apache2/php.ini
 
 EXPOSE 80
 
