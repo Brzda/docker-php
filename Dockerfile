@@ -1,4 +1,4 @@
-FROM php:7-apache
+FROM php:5-apache
 
 MAINTAINER "Lukas Brzobohaty" <brzda.l@gmail.com>
 
@@ -22,7 +22,7 @@ RUN apt-get clean \
 RUN docker-php-ext-configure pgsql -with-pgsql=/usr/include/postgresql \
     && docker-php-ext-configure gd --enable-gd-native-ttf --with-png-dir=/usr/include --with-jpeg-dir=/usr/include --with-freetype-dir=/usr/include/freetype2 \
     && docker-php-ext-configure bcmath \
-    && docker-php-ext-install -j$(nproc) pdo pdo_pgsql pgsql pdo_mysql mysqli curl gd mbstring json bcmath mcrypt zip fileinfo soap calendar
+    && docker-php-ext-install -j$(nproc) pdo pdo_pgsql pgsql pdo_mysql mysql mysqli curl gd mbstring json bcmath mcrypt zip fileinfo soap calendar
 	
 # php.ini
 COPY conf/php.ini /usr/local/etc/php/
