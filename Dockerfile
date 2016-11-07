@@ -3,6 +3,7 @@ FROM php:7-apache
 MAINTAINER "Lukas Brzobohaty" <brzda.l@gmail.com>
 
 RUN a2enmod rewrite
+RUN a2enmod headers
 
 ENV TZ Europe/Prague
 
