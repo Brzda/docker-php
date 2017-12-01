@@ -1,4 +1,4 @@
-FROM php:7-apache
+FROM php:7.0-apache
 
 MAINTAINER "Lukas Brzobohaty" <brzda.l@gmail.com>
 
@@ -7,7 +7,7 @@ RUN a2enmod headers
 
 ENV TZ Europe/Prague
 
-ENV DEPENDENCY_PACKAGES="libpq-dev libcurl4-openssl-dev libjpeg-dev libfreetype6-dev libpng-dev libmcrypt-dev libxml2-dev"
+ENV DEPENDENCY_PACKAGES="libpq-dev libcurl4-openssl-dev libpng12-dev libjpeg-dev libfreetype6-dev libpng-dev libmcrypt-dev libxml2-dev"
 ENV BUILD_PACKAGES=""
 
 RUN sed -i  "s/http:\/\/httpredir\.debian\.org\/debian/ftp:\/\/ftp\.debian\.org\/debian/g" /etc/apt/sources.list
